@@ -10,7 +10,7 @@ at an interval of `$rotate_days * 2`.
 For instance, suppose `rotation_days = 7`.  This would be how the offset
 values change as terraform evaluates this, each day.
 
-|   DAY#   | A     | B     | ACTIVE |
+|   DAY#   | A OFFSET | B OFFSET | ACTIVE |
 | :------: | :---: | :---: | :---: |
 | 0 | 0 | -7 | A |
 | 3 | 0 | -7 | A |
