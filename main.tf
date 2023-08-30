@@ -24,18 +24,18 @@ locals {
     31 + 28 + 31 + 30 + 31 + 30 + 31 + 31 + 30 + 31 + 30, # 12 = Dec = sum(Jan-Nov)
   ]
 
-  now                   = plantimestamp()
-  now_year              = tonumber(formatdate("YYYY", local.now))
-  now_month             = tonumber(formatdate("M", local.now))
-  now_days_in_month     = tonumber(formatdate("D", local.now))
-  now_days_before_month = local.prev_days[local.now_month]
-  start                 = time_static.start.rfc3339
+  now               = plantimestamp()
+  now_year          = tonumber(formatdate("YYYY", local.now))
+  now_month         = tonumber(formatdate("M", local.now))
+  now_days_in_month = tonumber(formatdate("D", local.now))
+  now_days_to_month = local.prev_days[local.now_month]
+  now_days_to_year  = 365 * local.now_year
 
   start_epoch_day  = floor(time_static.start.unix / 86400)
-  now_epoch_day    = (365 * local.now_year) + local.now_days_to_month + local.now_days_in_month
+  now_epoch_day    = local.now_days_to_year + local.now_days_to_month + local.now_days_in_month
   days_since_start = now_epoch_day - start_epoch_day
 
-  interval = floor(local.days_since_start / local.interval)
+  interval = floor(local.days_since_start / var.rotation_days)
   active   = (local.interval % 2) == 0 ? "A" : "B"
   offsetA  = (local.interval - (local.active == "A") ? 0 : 1) * var.rotation_days
   offsetB  = (local.interval - (local.active == "B") ? 0 : 1) * var.rotation_days
