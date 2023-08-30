@@ -5,7 +5,7 @@ where each key is "active" for the `rotation_days` number of days.
 To visualize this process some, the module gets instanciated and sets the
 `START` time.  The module then calculates the proper date at which each
 key should become the "active" key.  Each `time_offset` resource changes
-at an interval of `$rotate_days * 2`.
+at an interval of `$rotation_days * 2`.
 
 For instance, suppose `rotation_days = 7`.  This would be how the offset
 values change as terraform evaluates this, each day.
