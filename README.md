@@ -26,6 +26,6 @@ The output of this module is a pair of `time_offset` resources, `A` and
 you want to manage to get recreated at the appropriate time.
 
 See examples of how to use this in the subdirectories:
-- [twingate](./twingate/main.tf)
-- [twingate-triggers](./twingate-triggers/main.tf)
-- [google](./google/main.tf)
+- [twingate_service_account_key using lifecycle](./twingate/main.tf)
+- [twingate_service_account_key using triggers](./twingate-triggers/main.tf)
+- [google_service_account_key](./google/main.tf)
