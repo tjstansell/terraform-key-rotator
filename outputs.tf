@@ -1,4 +1,4 @@
-output "active_key" {
+output "active" {
   value = local.active
 }
 
