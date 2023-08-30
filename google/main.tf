@@ -16,7 +16,7 @@ resource "google_service_account_key" "B" {
   display_name       = var.name_prefix == null ? "B" : "${var.name_prefix} B"
   service_account_id = var.service_account_id
 
-  triggers = {
+  keepers = {
     rotate = module.rotator.B.rfc3339
   }
 }
