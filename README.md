@@ -25,4 +25,7 @@ The output of this module is a pair of `time_offset` resources, `A` and
 `B`.  These are expected to be used to cause the specific key resources
 you want to manage to get recreated at the appropriate time.
 
-See examples of using this with `twingate_service_account_key` resources.
+See examples of how to use this in the subdirectories:
+- [twingate](./twingate/main.tf)
+- [twingate-triggers](./twingate-triggers/main.tf)
+- [google](./google/main.tf)
