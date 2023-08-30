@@ -1,6 +1,13 @@
 locals {
+  #
   # formatdate() can't tell me which day of the year we're in, so we have
-  # to calculate it ourselves.
+  # to calculate it ourselves.  We also don't use `time_static` to convert
+  # this to a unix time because that would cause a proposed "change" in
+  # every plan that uses this module.  That's needlessly noisy and
+  # intrusive.
+  #
+  # Further reading at https://github.com/hashicorp/terraform/issues/31751
+  #
   prev_days = [
     0,                                                    #  0 = invalid
     0,                                                    #  1 = Jan = none previous
