@@ -1,3 +1,7 @@
+locals {
+  random_name = try(coalesce(var.key_prefix), null) == null
+}
+
 module "rotator" {
   source        = "../"
   rotation_days = var.rotation_days
@@ -13,7 +17,7 @@ resource "terraform_data" "B" {
 }
 
 resource "twingate_service_account_key" "A" {
-  name               = var.name_prefix == null ? "A" : "${var.name_prefix} A"
+  name               = local.random_name ? null : "${var.key_prefix}A"
   service_account_id = var.service_account_id
   expiration_time    = var.rotation_days * 2
 
@@ -23,7 +27,7 @@ resource "twingate_service_account_key" "A" {
 }
 
 resource "twingate_service_account_key" "B" {
-  name               = var.name_prefix == null ? "B" : "${var.name_prefix} B"
+  name               = local.random_name ? null : "${var.key_prefix}B"
   service_account_id = var.service_account_id
   expiration_time    = var.rotation_days * 2
 
