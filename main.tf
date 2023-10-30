@@ -37,8 +37,8 @@ locals {
 
   interval = floor(local.days_since_start / var.rotation_days)
   active   = (local.interval % 2) == 0 ? "A" : "B"
-  offsetA  = (local.interval - (local.active == "A") ? 0 : 1) * var.rotation_days
-  offsetB  = (local.interval - (local.active == "B") ? 0 : 1) * var.rotation_days
+  offsetA  = (local.interval - (local.active == "A" ? 0 : 1)) * var.rotation_days
+  offsetB  = (local.interval - (local.active == "B" ? 0 : 1)) * var.rotation_days
 
   #                  |
   # A...... ......A..|.. .....A
