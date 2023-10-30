@@ -9,27 +9,34 @@ locals {
   # Further reading at https://github.com/hashicorp/terraform/issues/31751
   #
   prev_days = [
-    0,                                                    #  0 = invalid
-    0,                                                    #  1 = Jan = none previous
-    31,                                                   #  2 = Feb = sum(Jan)
-    31 + 28,                                              #  3 = Mar = sum(Jan-Feb)
-    31 + 28 + 31,                                         #  4 = Apr = sum(Jan-March)
-    31 + 28 + 31 + 30,                                    #  5 = May = sum(Jan-April)
-    31 + 28 + 31 + 30 + 31,                               #  6 = Jun = sum(Jan-May)
-    31 + 28 + 31 + 30 + 31 + 30,                          #  7 = Jul = sum(Jan-June)
-    31 + 28 + 31 + 30 + 31 + 30 + 31,                     #  8 = Aug = sum(Jan-July)
-    31 + 28 + 31 + 30 + 31 + 30 + 31 + 31,                #  9 = Sep = sum(Jan-Aug)
-    31 + 28 + 31 + 30 + 31 + 30 + 31 + 31 + 30,           # 10 = Oct = sum(Jan-Sept)
-    31 + 28 + 31 + 30 + 31 + 30 + 31 + 31 + 30 + 31,      # 11 = Nov = sum(Jan-Oct)
-    31 + 28 + 31 + 30 + 31 + 30 + 31 + 31 + 30 + 31 + 30, # 12 = Dec = sum(Jan-Nov)
+    0,                                                                     #  0 = invalid
+    0,                                                                     #  1 = Jan = none previous
+    31,                                                                    #  2 = Feb = sum(Jan)
+    31 + 28 + local.leap_day,                                              #  3 = Mar = sum(Jan-Feb)
+    31 + 28 + local.leap_day + 31,                                         #  4 = Apr = sum(Jan-March)
+    31 + 28 + local.leap_day + 31 + 30,                                    #  5 = May = sum(Jan-April)
+    31 + 28 + local.leap_day + 31 + 30 + 31,                               #  6 = Jun = sum(Jan-May)
+    31 + 28 + local.leap_day + 31 + 30 + 31 + 30,                          #  7 = Jul = sum(Jan-June)
+    31 + 28 + local.leap_day + 31 + 30 + 31 + 30 + 31,                     #  8 = Aug = sum(Jan-July)
+    31 + 28 + local.leap_day + 31 + 30 + 31 + 30 + 31 + 31,                #  9 = Sep = sum(Jan-Aug)
+    31 + 28 + local.leap_day + 31 + 30 + 31 + 30 + 31 + 31 + 30,           # 10 = Oct = sum(Jan-Sept)
+    31 + 28 + local.leap_day + 31 + 30 + 31 + 30 + 31 + 31 + 30 + 31,      # 11 = Nov = sum(Jan-Oct)
+    31 + 28 + local.leap_day + 31 + 30 + 31 + 30 + 31 + 31 + 30 + 31 + 30, # 12 = Dec = sum(Jan-Nov)
   ]
 
+  epoch_start_year  = 1970
   now               = plantimestamp()
   now_year          = tonumber(formatdate("YYYY", local.now))
   now_month         = tonumber(formatdate("M", local.now))
   now_days_in_month = tonumber(formatdate("D", local.now))
   now_days_to_month = local.prev_days[local.now_month]
-  now_days_to_year  = 365 * (local.now_year - 1970)
+  now_days_to_year  = 365 * (local.now_year - local.epoch_start_year) + local.leap_days
+  is_leap_year      = (local.now_year % 4 == 0 && (local.now_year % 100 != 0 || local.now_year % 400 == 0))
+  leap_day          = local.is_leap_year ? 1 : 0
+  leap_days = sum([
+    for i in range(local.epoch_start_year, local.now_year - 1) :
+    ((i % 4 == 0 && (i % 100 != 0 || i % 400 == 0)) ? 1 : 0)
+  ])
 
   epoch_to_start_days = floor(time_static.start.unix / 86400)
   epoch_to_now_days   = local.now_days_to_year + local.now_days_to_month + local.now_days_in_month
