@@ -33,7 +33,7 @@ locals {
 
   start_epoch_day  = floor(time_static.start.unix / 86400)
   now_epoch_day    = local.now_days_to_year + local.now_days_to_month + local.now_days_in_month
-  days_since_start = now_epoch_day - start_epoch_day
+  days_since_start = local.now_epoch_day - local.start_epoch_day
 
   interval = floor(local.days_since_start / var.rotation_days)
   active   = (local.interval % 2) == 0 ? "A" : "B"
