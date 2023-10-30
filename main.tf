@@ -29,11 +29,11 @@ locals {
   now_month         = tonumber(formatdate("M", local.now))
   now_days_in_month = tonumber(formatdate("D", local.now))
   now_days_to_month = local.prev_days[local.now_month]
-  now_days_to_year  = 365 * local.now_year
+  now_days_to_year  = 365 * (local.now_year - 1970)
 
-  start_epoch_day  = floor(time_static.start.unix / 86400)
-  now_epoch_day    = local.now_days_to_year + local.now_days_to_month + local.now_days_in_month
-  days_since_start = local.now_epoch_day - local.start_epoch_day
+  epoch_to_start_days = floor(time_static.start.unix / 86400)
+  epoch_to_now_days   = local.now_days_to_year + local.now_days_to_month + local.now_days_in_month
+  days_since_start    = local.epoch_to_now_days - local.epoch_to_start_days
 
   interval = floor(local.days_since_start / var.rotation_days)
   active   = (local.interval % 2) == 0 ? "A" : "B"
