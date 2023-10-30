@@ -15,7 +15,7 @@ resource "terraform_data" "B" {
 resource "twingate_service_account_key" "A" {
   name               = var.name_prefix == null ? "A" : "${var.name_prefix} A"
   service_account_id = var.service_account_id
-  expire_in_days     = var.rotation_days * 2
+  expiration_time    = var.rotation_days * 2
 
   lifecycle {
     replace_triggered_by = [terraform_data.A]
@@ -25,7 +25,7 @@ resource "twingate_service_account_key" "A" {
 resource "twingate_service_account_key" "B" {
   name               = var.name_prefix == null ? "B" : "${var.name_prefix} B"
   service_account_id = var.service_account_id
-  expire_in_days     = var.rotation_days * 2
+  expiration_time    = var.rotation_days * 2
 
   lifecycle {
     replace_triggered_by = [terraform_data.B]
