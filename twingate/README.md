@@ -13,7 +13,7 @@ resource "twingate_service_account" "github" {
 }
 
 module "key_rotator" {
-  source = "git::https://github.com/tjstansell/terraform-key-rotator.git//twingate?ref=main"
+  source = "git::https://github.com/23andme-private/terraform-key-rotator.git//twingate?ref=main"
 
   service_account_id = twingate_service_account.github.id
   key_prefix         = null  # use random names

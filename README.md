@@ -1,8 +1,3 @@
-# DISCLAIMER
-
-This used to be completely ***untested*** and here for discussion purposes, but
-as of Oct 31, it works now!
-
 # Key Rotation with Terraform
 
 This is a generic key rotation module for calculating when a pair of keys
