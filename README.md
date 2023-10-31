@@ -1,6 +1,7 @@
 # DISCLAIMER
 
-This is completely ***untested*** and here for discussion purposes.
+This used to be completely ***untested*** and here for discussion purposes, but
+as of Oct 31, it works now!
 
 # Key Rotation with Terraform
 
@@ -14,7 +15,7 @@ key.  Each `time_offset` resource changes at an interval of
 `$rotation_days * 2`, offset from each other by `$rotation_days` days.
 
 For instance, suppose `rotation_days = 7`.  This would be how the offset
-values change as terraform evaluates this, each day.
+values change as terraform evaluates this on different days.
 
 |   DAY#   | A OFFSET | B OFFSET | ACTIVE |
 | :------: | :---: | :---: | :---: |
@@ -32,10 +33,10 @@ Notice how each offset increases at a rate of `$rotation_days * 2` (in
 this case `14`).
 
 The output of this module is a pair of `time_offset` resources, `A` and
-`B`.  These are expected to be used to cause the specific key resources
-you want to manage to get recreated at the appropriate time.
+`B`, as well as the name of which one is `active`.  These are expected to
+be used to cause the specific key resources you want to manage to get
+recreated at the appropriate time.
 
-See examples of how to use this in the subdirectories:
+See examples of how to use this in the provider-specific sub-modules:
 - [twingate_service_account_key using lifecycle](./twingate/main.tf)
-- [twingate_service_account_key using triggers](./twingate-triggers/main.tf)
 - [google_service_account_key](./google/main.tf)
