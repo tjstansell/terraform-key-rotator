@@ -73,12 +73,16 @@ locals {
 
 resource "time_static" "start" {}
 
+# NOTE: at least one offset_* must be non-zero or the time becomes
+# `0001-01-01T00:00:00Z`
 resource "time_offset" "A" {
-  base_rfc3339 = time_static.start.rfc3339
-  offset_days  = local.offsetA
+  base_rfc3339   = time_static.start.rfc3339
+  offset_days    = local.offsetA == 0 ? null : local.offsetA
+  offset_seconds = local.offsetA == 0 ? 1 : null
 }
 
 resource "time_offset" "B" {
-  base_rfc3339 = time_static.start.rfc3339
-  offset_days  = local.offsetB
+  base_rfc3339   = time_static.start.rfc3339
+  offset_days    = local.offsetB == 0 ? null : local.offsetB
+  offset_seconds = local.offsetB == 0 ? 1 : null
 }
